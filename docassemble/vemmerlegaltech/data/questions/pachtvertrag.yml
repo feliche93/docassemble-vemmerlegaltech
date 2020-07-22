@@ -21,6 +21,7 @@ code: |
   disclaimer_screen_shown = True
   force_ask('disclaimer_screen')
 ---
+ga id: PachtvertragIntroScreen
 question: Erstelle jetzt deinen Pachtvertrag mit wenigen Clicks!
 continue button field: intro_screen_shown
 ---
@@ -263,7 +264,7 @@ fields:
   - Es darf der Weg benutzt werden: weg
     datatype: yesnowide
 ---
-ga id: pachtvertrag_finished
+ga id: PachtvertragFinished
 question: |
   Pachtvertrag ist fertig.
 subquestion: |
