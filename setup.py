@@ -43,9 +43,9 @@ def find_package_data(where='.', package='', exclude=standard_exclude, exclude_d
     return out
 
 setup(name='docassemble.vemmerlegaltech',
-      version='0.0.4',
+      version='0.0.5',
       description=('A docassemble extension.'),
-      long_description='Another one',
+      long_description='To be written',
       long_description_content_type='text/markdown',
       author='Felix Vemmer',
       author_email='felix.vemmer@gmail.com',

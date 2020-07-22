@@ -1,38 +1,39 @@
 metadata:
   title: Pachtvertrag für Landwirte
   short title: Pachtvertrag
+  description: |
+    Der einfachste Weg einen Pachtvertrag Entwurf zu erstellen!
+  subtitle: |
+    This is the subtitle part.
+  authors:
+    - name: Felix Vemmer
+      organization: Vemmer Legal Tech
 ---
 imports:
   - num2words
 ---
 mandatory: True
-question: |
-  Pachtvertrag ist fertig.
+code: |
+  intro_screen_shown
+  disclaimer_screen_shown
+---
+code: |
+  disclaimer_screen_shown = True
+  force_ask('disclaimer_screen')
+---
+question: Erstelle jetzt deinen Pachtvertrag mit wenigen Clicks!
+continue button field: intro_screen_shown
+---
+event: disclaimer_screen
+question: Doc-Generator Hinweis
 subquestion: |
-  Hier ist dein individueller Pachtvertrag!
+  ### Disclaimer
+  
+  This is not legal advice etc etc
 buttons:
-  - Exit: exit
-  - Restart: restart
-attachments:
-  - name: Pachtvertrag
-    filename: Pachtvertrag
-    docx template file: pachtvertrag.docx
----
-template: disclaimer
-content: |
-  The opinions expressed herein do not
-  *necessarily* reflect the views
-  of company xyz.
----
-field: intro_screen
-question: Welcome to the interview!
-subquestion: |
-  Greetings.  We hope you learn something
-  from this guided interview.
-
-  ${ disclaimer }
-
-  To get started, press **Continue**.
+  - Ich akzeptiere und will das Interview weiterführen: continue
+  - Ich akzteptiere dies nicht: exit
+    url: https://www.google.de
 ---
 objects:
   - paechter: Individual
@@ -261,3 +262,17 @@ fields:
     datatype: yesnowide
   - Es darf der Weg benutzt werden: weg
     datatype: yesnowide
+---
+ga id: pachtvertrag_finished
+question: |
+  Pachtvertrag ist fertig.
+subquestion: |
+  Hier ist dein individueller Pachtvertrag!
+buttons:
+  - Exit: exit
+  - Restart: restart
+attachments:
+  - name: Pachtvertrag
+    filename: Pachtvertrag
+    docx template file: pachtvertrag.docx
+mandatory: True
