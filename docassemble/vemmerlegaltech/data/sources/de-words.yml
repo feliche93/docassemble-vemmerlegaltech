@@ -698,3 +698,5 @@
     'Since you did not type "delete my account" I did not delete your account.': 'Da Sie nicht "delete my account" eingegeben haben, habe ich Ihr Konto nicht gelöscht.'
     "Delete Account": "Konto löschen"
     "Cancel": "Abbrechen"
+    "Restart": "Neustart"
+    "Please wait. System is restarting.": "Bitte warten Sie. System wird neu gestartet."
