@@ -23,6 +23,8 @@ code: |
 ---
 ga id: PachtvertragIntroScreen
 question: Erstelle jetzt deinen Pachtvertrag mit wenigen Clicks!
+subquestion: |
+  ${ static_image('undraw_contract_uy56.svg') }
 continue button field: intro_screen_shown
 ---
 event: disclaimer_screen
