@@ -1,5 +1,5 @@
 metadata:
-  title: Pachtvertrag für Landwirte
+  title: Pachtvertrag für landwirtschaftliche Grundstücke
   short title: Pachtvertrag
   description: |
     Der einfachste Weg einen Pachtvertrag Entwurf zu erstellen!
@@ -29,14 +29,15 @@ continue button field: intro_screen_shown
 ---
 event: disclaimer_screen
 question: Doc-Generator Hinweis
+# Kommentar Test
 subquestion: |
-  ### Disclaimer
+  Doc-Generator umfasst ***keine Rechtsberatung bzw. Rechtsdienstleistung***, d.h. es erfolgt keine rechtliche Prüfung des konkreten Einzelfalls im Sinne des Rechtsdienstleistungsgesetzes (RDG) durch Doc-Generator. 
   
-  This is not legal advice etc etc
+  - Das Angebot „Doc-Generator" unterstützt den Kunden durch ein softwaregestützten Interview- und Vertragserstellungsprozess bei der eigenverantwortlichen Erstellung seiner Rechtsdokumente. 
+  - Dieser Prozess ist grundsätzlich so gestaltet, dass die Anwendung keine besonderen Rechtskenntnisse erfordert. Ein automatisierter Interviewprozess kann allerdings nicht jeden einzelnen Sachverhalt mit seinen spezifischen Besonderheiten erfassen. 
+  - Der Kunde ist daher gehalten, die erstellten Rechtsdokumente im Hinblick auf die von ihm angestrebte Verwendung insbesondere einer Plausibilitätsprüfung zu unterziehen. Sollte eine rechtliche Prüfung im konkreten Einzelfall erforderlich werden, empfehlen wir, den Rat eines Rechtsanwalts oder einer sonstigen zur Erbringung von Rechtsdienstleistungen nach dem RDG berechtigten Stelle zu suchen.
 buttons:
-  - Ich akzeptiere und will das Interview weiterführen: continue
-  - Ich akzteptiere dies nicht: exit
-    url: https://www.google.de
+  - Ich habe die Hinweise gelesen: continue
 ---
 objects:
   - paechter: Individual
@@ -87,7 +88,7 @@ code : |
   gesamptpacht_worte = num2words.num2words(gesamtpacht, lang='de')   
 ---
 question: |
-  Welche Flächten möchten Sie verpachten?
+  Welche Flächen möchten Sie verpachten? (Gegenstand des Pachtvertrages)
 fields:
   - Germarkung: flaechen[i].gemarkung
   - Flur: flaechen[i].flur
@@ -99,6 +100,9 @@ fields:
     - Acker
   - Dauergrünland: flaechen[i].dgl
     datatype: yesnoradio
+    show if:
+      code: |
+        2 + 2 == 4
   - Größe in ha laut Kataster: flaechen[i].groesse
     datatype: number
   - Pacht in EUR /ha: flaechen[i].pachtpreis
@@ -126,43 +130,57 @@ fields:
 list collect: True
 ---
 question: |
-  Wie heißt der Name und Anschrift des Pächter?
+  Name und Anschrift des Pächters
 subquestion: |
-  Der Pächter pachtet das Land.
+  Bitte geben Sie hier den Namen und die Anschrift des Pächters ein.
 fields:
-  - Vorname Pächter: paechter.name.first
-  - Nachname Pächter: paechter.name.last
+  - Vorname: paechter.name.first
+    hint: Max
+  - Nachname: paechter.name.last
+    hint: Mustermann
   - Addresse: paechter.address.address
+    hint: Musterstraße 12
     address autocomplete: True
+  - Postleitzahl: paechter.address.postal_code
+    hint: 12345
+    required: True
   - Stadt: paechter.address.city
-  - PLZ: paechter.address.postal_code
-    required: False
+    hint: Musterstadt
 ---
 question: |
-  Wie heißt der Name und Anscharift des Verpächter?
+  Name und Anschrift des Verpächters
 subquestion: |
-  Der Verpächter verpachtet das Land an den Pächter.
+  Bitte geben Sie hier den Namen und die Anschrift des Verpächters ein.
 fields:
-  - Vorname Pächter: verpaechter.name.first
-  - Nachname Pächter: verpaechter.name.last
+  - Vorname: verpaechter.name.first
+    hint: Erika
+  - Nachname: verpaechter.name.last
+    hint: Mustermann
   - Addresse: verpaechter.address.address
+    hint: Musterweg 34
     address autocomplete: True
+  - Postleitzahl: verpaechter.address.postal_code
+    hint: 12345
+    required: True
   - Stadt: verpaechter.address.city
-  - PLZ: verpaechter.address.postal_code
-    required: False
+    hint: Musterstadt
 ---
 question: |
-  Wann beginnt und endet die Pacht?
+  Beginn und Ende des Pachtverhältnisses
+subquestion: |
+  Bitte geben Sie hier das Datum für den Beginn und das Ende des Pachtverhältnisses ein.
 fields:
-  - Begin der Pacht: pacht_datum_start
+  - Beginn der Pacht: pacht_datum_start
     datatype: date
+    required: True
   - Ende der Pacht: pacht_datum_ende
     datatype: date
+    required: True
 ---
 question: |
   Wann beginnt und endet das Pachtjahr?
 fields:
-  - Begin des Pachtjahrs: pacht_jahr_start
+  - Beginn des Pachtjahrs: pacht_jahr_start
     datatype: date
   - Ende des Pachtjahrs: pacht_jahr_ende
     datatype: date
