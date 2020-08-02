@@ -1,0 +1,186 @@
+---
+code: |
+  bisherige_alleinige_wohnung = bisherige_wohnung == 'alleinige Wohnung'
+  bisherige_hauptwohnung = bisherige_wohnung == 'Hauptwohnung'
+  bisherige_nebenwohnung = bisherige_wohnung == 'Nebenwohnung'
+  kuenftige_wohnung_nein_bestanden = kuenftige_wohnung_bestanden == False
+  kuenftige_wohnung_ja_bestanden = kuenftige_wohnung_bestanden == True
+  if kuenftige_wohnung_bestanden:
+    kuenftige_wohnung_wird_allein = False
+    kuenftige_wohnung_wird_haupt = False
+    kuenftige_wohnung_wird_neben = False
+    kuenftige_wohnung_bestanden_haupt = kuenftige_wohnung_bestanden_type == 'Hauptwohnung'
+    kuenftige_wohnung_bestanden_neben = kuenftige_wohnung_bestanden_type == 'Nebenwohnung'
+  if not kuenftige_wohnung_bestanden:
+    kuenftige_wohnung_bestanden_haupt = False
+    kuenftige_wohnung_bestanden_neben = False
+    kuenftige_wohnung_wird_allein = kuenftige_wohnung_wird_type == 'alleinige Wohnung'
+    kuenftige_wohnung_wird_haupt = kuenftige_wohnung_wird_type == 'Hauptwohnung'
+    kuenftige_wohnung_wird_neben = kuenftige_wohnung_wird_type == 'Nebenwohnung'
+---
+code: |
+  person[i].name.first
+  person[i].name.last
+  person[i].passport_name
+  person[i].birth_name
+  person[i].gender
+  person[i].religion
+  person[i].birthdate
+  person[i].place_of_birth
+  person[i].nationality
+  person[i].kuenstlername
+  person[i].complete = True
+---
+objects:
+  bisherige_adresse: Address
+  kuenftige_adresse: Address
+  person: DAList.using(object_type=Individual, complete_attribute='complete', there_are_any=True, maximum_number=3)
+---
+question: |
+  Was ist die Adresse deiner bisherigen Wohnung?
+fields:
+  - Adresse: bisherige_adresse.address
+  - Zusätze: bisherige_adresse.unit
+    required: False
+  - PLZ: bisherige_adresse.zip
+    required: False
+  - Bezirk: bisherige_adresse.bezirk
+    choices:
+      - Mitte
+      - Friedrichshain-Kreuzberg
+      - Pankow
+      - Charlottenburg-Wilmersdorf
+      - Spandau
+      - Steglitz-Zehlendorf
+      - Tempelhof-Schöneberg
+      - Neukölln
+      - Treptow-Köpenick
+      - Marzahn-Hellersdorf
+      - Lichtenberg
+      - Reinickendorf
+#  - Ortsteil: adresse_bisherige.ortsteil
+#    required: False
+---
+question: |
+  Hat die künftige Wohnung bereits bestanden? 
+yesno: kuenftige_wohnung_bestanden
+---
+question: |
+  Als was hat Künftige Wohnung bestanden?
+field: kuenftige_wohnung_bestanden_type
+choices:
+  - Hauptwohnung
+  - Nebenwohnung
+---
+question: |
+  Was wird die zukünftige Wohnung?
+field: kuenftige_wohnung_wird_type
+choices:
+  - alleinige Wohnung
+  - Hauptwohnung
+  - Nebenwohnung
+---
+question: |
+  Bestehen weitere Wohnungen in Deutschland?
+yesno: weitere_wohnungen
+---
+question: |
+  Welche personenen sollen abgemeldet werden?
+fields:
+  - Vorname(n): person[i].name.first
+  - Nachname: person[i].name.last
+  - Geburtsname: person[i].birth_name
+  - Passname: person[i].passport_name
+  - Geschlecht: person[i].gender
+  - Religion : person[i].religion
+  - Geburtsdatum: person[i].birthdate
+  - Geburtsort: person[i].place_of_birth
+  - Nationalität: person[i].nationality
+  - Künstlername: person[i].kuenstlername
+list collect: True
+---
+question: |
+  Was ist die Adresse deiner künftigen Wohnung?
+fields:
+  - Address: kuenftige_adresse.address
+  - Zusätze: kuenftige_adresse.unit
+    required: False
+  - City: kuenftige_adresse.city
+    required: True
+  - PLZ: kuenftige_adresse.zip
+    required: True
+  - Land: kuenftige_adresse.country
+    code: |
+      countries_list()
+    required: True
+---
+question: |
+  Die bisherige Wohnung war eine...
+field: bisherige_wohnung
+choices:
+  - alleinige Wohnung
+  - Hauptwohnung
+  - Nebenwohnung     
+---
+question: |
+  An welchen Tag bist du auszgezogen?
+fields:
+  - Tag des Auszugs: datum_auszug
+    datatype: date
+---
+question: |
+  Hier ist deine ausgefüllte Abmeldung!
+attachment:
+  name: Abmeldung
+  filename: abmeldung
+  pdf template file: mdb-f402609-20151120_abmeldung.pdf
+  fields:
+    - Tag des Auszugs: |
+       ${ datum_auszug }
+    - Postleitzahl Gemeinde Ortsteil bisherige Wohnung: |
+       ${ bisherige_adresse.zip + ', ' + bisherige_adresse.bezirk }
+    - Straße Hausnummer Zusätze bisherige Wohnung: |
+       ${ bisherige_adresse.address + ' ' + bisherige_adresse.unit }
+    - bisherige Wohnung war alleinige Wohnung : |
+       ${ bisherige_alleinige_wohnung }
+    - bisherige Wohnung war Hauptwohnung : |
+       ${ bisherige_hauptwohnung }
+    - bisherige Wohnung war Nebenwohnung : |
+       ${ bisherige_nebenwohnung }
+    - "Postleitzahl Gemeinde Kreis Land (falls Ausland: Staat) künftige Wohnung": |
+       ${ kuenftige_adresse.zip + ', ' + kuenftige_adresse.city  + ', ' + kuenftige_adresse.country }   
+    - Straße Hausnummer Zusätze künftige Wohnung: |
+       ${ kuenftige_adresse.address + ' ' + kuenftige_adresse.unit }
+    - nein: |
+       ${ kuenftige_wohnung_nein_bestanden }
+    - ja als: |
+       ${ kuenftige_wohnung_ja_bestanden }
+    - ja, als Hauptwohnung: |
+       ${ kuenftige_wohnung_bestanden_haupt }
+    - ja, als Nebenwohnung: |
+        ${ kuenftige_wohnung_bestanden_neben }
+    - künftige Wohunung wird alleinige Wohnung: |
+        ${ kuenftige_wohnung_wird_allein }
+    - künftige Wohunung wird Hauptwohnung: |
+        ${ kuenftige_wohnung_wird_haupt }
+    - künftige Wohunung wird Nebenwohnung: |
+        ${ kuenftige_wohnung_wird_neben }
+    - Person 1 Familienname ggf Doktorgrad Zeile 1: |
+        ${ person[i].name.last }
+    - Person 1 Passname: |
+        ${ person[i].passport_name }
+    - Person 1 Vornamen Rufnamen unterstreichen: |
+        ${ person[i].name.first }
+    - Person 1 Geburtsname: |
+        ${ person[i].birth_name }
+    - Person 1 Geschlecht: |
+        ${ person[i].gender }
+    - Person 1 Tag Ort Land der Geburt: |
+        ${ person[i].place_of_birth + person[i].birthdate }
+    - Person 1 Religionsgesellschaft: |
+        ${ person[i].religion }
+    - Person 1 Staatsangehörigkeiten: |
+        ${ person[i].nationality }
+    - Person 1 Ordens- Künstlername: |
+        ${ person[i].kuenstlername }
+mandatory: True
