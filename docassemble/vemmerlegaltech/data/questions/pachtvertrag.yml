@@ -2,12 +2,12 @@ metadata:
   title: Pachtvertrag für landwirtschaftliche Grundstücke
   short title: Pachtvertrag
   description: |
-    Der einfachste Weg einen Pachtvertrag Entwurf zu erstellen!
+    Erstelle einen Pachtvertrag mit wenigen Clicks!
   subtitle: |
-    This is the subtitle part.
+    Der einfachste Weg einen Pachtvertrag Entwurf zu erstellen!
   authors:
     - name: Felix Vemmer
-      organization: Vemmer Legal Tech
+      organization: Doc-Generator
 ---
 imports:
   - num2words

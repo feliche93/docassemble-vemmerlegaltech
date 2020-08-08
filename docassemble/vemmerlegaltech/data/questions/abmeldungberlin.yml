@@ -1,3 +1,13 @@
+metadata:
+  title: Abmeldung Berlin
+  short title: Abmeldung
+  description: |
+    Erstelle deine Abmeldung mit wenigen Clicks!
+  subtitle: |
+    Der einfachste Weg dich in Berlin abzumelden!
+  authors:
+    - name: Felix Vemmer
+      organization: Doc-Generator
 ---
 code: |
   bisherige_alleinige_wohnung = bisherige_wohnung == 'alleinige Wohnung'
