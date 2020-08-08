@@ -28,7 +28,8 @@ code: |
   person[i].birthdate
   person[i].place_of_birth
   person[i].nationality
-  person[i].kuenstlername
+  # person[i].kuenstlername
+  person[i].country_of_birth
   person[i].complete = True
 ---
 objects:
@@ -92,11 +93,20 @@ fields:
   - Geburtsname: person[i].birth_name
   - Passname: person[i].passport_name
   - Geschlecht: person[i].gender
+    choices:
+    - Männlich
+    - Weiblich
   - Religion : person[i].religion
+    required: False
   - Geburtsdatum: person[i].birthdate
+    datatype: date
   - Geburtsort: person[i].place_of_birth
+  - Geburtsland: person[i].country_of_birth
+    code: |
+      countries_list()
   - Nationalität: person[i].nationality
   - Künstlername: person[i].kuenstlername
+    required: False
 list collect: True
 ---
 question: |
@@ -166,21 +176,21 @@ attachment:
     - künftige Wohunung wird Nebenwohnung: |
         ${ kuenftige_wohnung_wird_neben }
     - Person 1 Familienname ggf Doktorgrad Zeile 1: |
-        ${ person[i].name.last }
-    - Person 1 Passname: |
-        ${ person[i].passport_name }
+        ${ person[0].name.last }
     - Person 1 Vornamen Rufnamen unterstreichen: |
-        ${ person[i].name.first }
+        ${ person[0].name.first }
+    - Person 1 Passname: |
+        ${ person[0].passport_name }
     - Person 1 Geburtsname: |
-        ${ person[i].birth_name }
+        ${ person[0].birth_name }
     - Person 1 Geschlecht: |
-        ${ person[i].gender }
+        ${ person[0].gender }
     - Person 1 Tag Ort Land der Geburt: |
-        ${ person[i].place_of_birth + person[i].birthdate }
+        ${ person[0].birthdate + ', ' + person[0].place_of_birth + ', ' + country_name(person[0].country_of_birth) }
     - Person 1 Religionsgesellschaft: |
-        ${ person[i].religion }
+        ${ person[0].religion }
     - Person 1 Staatsangehörigkeiten: |
-        ${ person[i].nationality }
+        ${ person[0].nationality }
     - Person 1 Ordens- Künstlername: |
-        ${ person[i].kuenstlername }
+        ${ person[0].kuenstlername }
 mandatory: True
